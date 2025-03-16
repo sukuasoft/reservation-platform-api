@@ -25,10 +25,6 @@ export const ERRORS = {
     statusCode: 403,
     message: "Acesso negado",
   },
-  DUPLICATE_ENTRY: {
-    statusCode: 409,
-    message: "Registro já existe",
-  },
 };
 
 export function responseError(response:Response,error:ResponseError){

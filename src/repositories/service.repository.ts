@@ -1,5 +1,5 @@
 import { db } from "../services/db";
-import { Service } from "../models/service.model";
+import { Service, ServiceByUser } from "../models/service.model";
 
 async function create({
   name,
@@ -11,7 +11,7 @@ async function create({
   description: string;
   price: number;
   userId: string;
-}): Promise<Service | null> {
+}): Promise<ServiceByUser | null> {
   try {
     const service = await db.service.create({
       data: {
@@ -20,9 +20,21 @@ async function create({
         price,
         userId,
       },
+      include: {
+        user:true
+      }
     });
 
-    return service;
+    return {
+      id: service.id,
+      name:service.name, 
+      description: service.description, 
+      price: service.price,
+      owner: {
+        name: service.user.name,
+        nif: service.user.nif,
+      }
+    };
   } catch (error) {
     console.log(error);
   }
@@ -30,24 +42,61 @@ async function create({
   return null;
 }
 
-async function find(id: string): Promise<Service | null> {
+async function find(id: string): Promise<ServiceByUser | null> {
   try {
     const service = await db.service.findFirst({
       where: {
         id: id,
       },
+      include:{
+        user:true
+      }
     });
-    return service;
+ 
+    if(service){
+      return {
+        id: service.id,
+        name:service.name, 
+        description: service.description, 
+        price: service.price,
+        owner: {
+          name: service.user.name,
+          nif: service.user.nif,
+        }
+      }
+    }
+    return null;
+    
   } catch (error) {
     console.log(error);
   }
   return null;
 }
 
-async function findAll(): Promise<Service[] | null> {
+async function findAll(): Promise<ServiceByUser[] | null> {
   try {
-    const services = await db.service.findMany();
-    return services;
+    const services = await db.service.findMany({
+      include:{
+        user:true
+      }
+    });
+    if(services){
+        return services.map((service:any) =>{
+
+          return {
+            id: service.id,
+            name:service.name, 
+            description: service.description, 
+            price: service.price,
+            owner: {
+              name: service.user.name,
+              nif: service.user.nif,
+            }
+          }
+          
+        })
+    }
+    return null;
   } catch (error) {
     console.log(error);
   }
@@ -60,14 +109,12 @@ async function update(
     name,
     description,
     price,
-    userId,
   }: {
     name: string;
     description: string;
     price: number;
-    userId: string;
   }
-): Promise<Service | null> {
+): Promise<ServiceByUser | null> {
   try {
     const service = await db.service.update({
       where: {
@@ -77,10 +124,23 @@ async function update(
         name,
         description,
         price,
-        userId,
       },
+      include: {
+        user:true
+      }
     });
-    return service;
+    
+    return {
+      id: service.id,
+      name:service.name, 
+      description: service.description, 
+      price: service.price,
+      owner: {
+        name: service.user.name,
+        nif: service.user.nif,
+      }
+    }
+    
   } catch (error) {
     console.log(error);
   }

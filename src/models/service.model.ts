@@ -5,3 +5,14 @@ export interface Service{
     price:number,
     userId:string
 }
+
+export interface ServiceByUser{
+    id:string, 
+    name:string
+    description:string
+    price:number,
+    owner: {
+        name:string, 
+        nif:string
+    }
+}
