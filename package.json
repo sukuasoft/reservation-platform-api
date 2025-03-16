@@ -1,0 +1,27 @@
+{
+  "name": "reserve-plataform-api",
+  "version": "1.0.0",
+  "description": "API para plataforma de reservas",
+  "scripts": {
+  
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sukuasoft/reserve-plataform-api.git"
+  },
+  "keywords": [
+    "api",
+    "reserve",
+    "plataform"
+  ],
+  "author": "Sebastião Sukuakueche",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sukuasoft/reserve-plataform-api/issues"
+  },
+  "homepage": "https://github.com/sukuasoft/reserve-plataform-api#readme",
+  "dependencies": {
+  },
+  "devDependencies": {
+  }
+}
