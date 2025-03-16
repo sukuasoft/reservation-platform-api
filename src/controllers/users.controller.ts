@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import { generateToken } from "../services/jwt";
 import { ERRORS, responseError } from "../utils/error";
 import { compareHash } from "../utils/hash";
+import { AuthRequest } from "../middlewares/auth.middleware";
 
 async function register(request: Request, response: Response) {
   const { name, nif, email, password, type } = request.body;
@@ -58,9 +59,21 @@ async function login(request: Request, response: Response) {
     responseError(response, ERRORS.INTERNAL_SERVER_ERROR);
 }
 
+
+async function me (request:AuthRequest, response:Response){
+    const user = { ...request.user};
+    delete user.password;
+   
+    response.json({
+        data: user
+    });
+
+}
+
 const usersController = {
   register,
   login,
+  me
 };
 
 export default usersController;

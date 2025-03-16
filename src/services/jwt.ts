@@ -18,3 +18,14 @@ export async function verifyToken(token: string) {
   }
   return null;
 }
+
+export  function extractTokenByHeader(header:string|undefined){
+    const authParts = (header ?? '').split(' ');
+
+    if (authParts.length > 1){
+        return authParts[1].trim();
+    }
+
+    return null;
+
+}
