@@ -13,6 +13,6 @@ export interface ServiceByUser{
     price:number,
     owner: {
         name:string, 
-        nif:string
+        nif:string | null
     }
 }

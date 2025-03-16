@@ -22,7 +22,7 @@ model User {
   id String @id @default(uuid())
   name String
   email String @unique
-  nif String @unique
+  nif String? @unique
   password String
   balance  Float @default(0)
   type TypeUser
