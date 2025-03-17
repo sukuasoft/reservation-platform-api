@@ -4,6 +4,7 @@ import { AuthRequest } from "../middlewares/auth.middleware";
 import reservationRepository from "../repositories/reservation.repository";
 import serviceRepository from "../repositories/service.repository";
 import userRepository from "../repositories/user.repository";
+import { reservationSchemeCreate } from "../validations/reservation.validation";
 
 async function getAll(request: AuthRequest, response: Response) {
 
@@ -54,6 +55,12 @@ async function get(request: AuthRequest, response: Response) {
 }
 
 async function create(request: AuthRequest, response: Response) {
+
+    if (!reservationSchemeCreate.safeParse(request.body).success){
+      responseError(response, ERRORS.BAD_REQUEST);
+      return;
+  }
+  
 
   const { serviceId, quantity } = request.body;
   const user = request.user;

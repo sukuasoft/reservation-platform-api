@@ -4,9 +4,22 @@ import { generateToken } from "../services/jwt";
 import { ERRORS, responseError } from "../utils/error";
 import { compareHash } from "../utils/hash";
 import { AuthRequest } from "../middlewares/auth.middleware";
+import { userSchemeRegister, userSchemeLogin } from "../validations/user.validation";
 
 async function register(request: Request, response: Response) {
+
+  if (!userSchemeRegister.safeParse(request.body).success){
+    responseError(response, ERRORS.BAD_REQUEST);
+    return;
+  }
+
   const { name, nif, email, password, type } = request.body;
+
+  if (type == 'service_provider' && !nif){
+    responseError(response, ERRORS.BAD_REQUEST);
+    return;
+
+  }
 
   const user = await userRepository.create({
     name,
@@ -32,6 +45,12 @@ async function register(request: Request, response: Response) {
 }
 
 async function login(request: Request, response: Response) {
+
+  if (!userSchemeLogin.safeParse(request.body).success){
+    responseError(response, ERRORS.BAD_REQUEST);
+    return;
+  }
+
     const {email, password} = request.body;
 
     const user = await userRepository.findByEmail(email);

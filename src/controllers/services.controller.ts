@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import serviceRepository from "../repositories/service.repository";
 import { ERRORS, responseError } from "../utils/error";
 import { AuthRequest } from "../middlewares/auth.middleware";
+import { serviceScheme } from "../validations/service.validation";
 
 async function getAll(request: Request, response: Response) {
   const services = await serviceRepository.findAll();
@@ -37,6 +38,11 @@ async function get(request: Request, response: Response) {
 
 async function create(request: AuthRequest, response: Response) {
 
+  if (!serviceScheme.safeParse(request.body).success){
+      responseError(response, ERRORS.BAD_REQUEST);
+      return;
+  }
+
   const { name, description, price } = request.body;
   const user = request.user;
 
@@ -71,6 +77,11 @@ async function create(request: AuthRequest, response: Response) {
 }
 
 async function update(request: AuthRequest, response: Response) {
+
+  if (!serviceScheme.safeParse(request.body).success){
+    responseError(response, ERRORS.BAD_REQUEST);
+    return;
+}
 
   const { name, description, price } = request.body;
   const { id } = request.params;
