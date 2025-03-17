@@ -64,11 +64,31 @@ async function findByEmail(email: string): Promise<User | null> {
     }
     return null;
   }
+
+async function updateBalance (id:string, amount:number):Promise<boolean>{
+
+  try {
+    await db.user.update({
+      where: {
+        id: id,
+      },
+      data: {
+        balance: amount
+      }
+    });
+    return true;
+  } catch (error) {
+    console.log(error);
+  }
+  return false;
+
+
+}
   
 
 
 const userRepository = {
-  create, find, findByEmail
+  create, find, findByEmail, updateBalance
 };
 
 export default userRepository;

@@ -1,5 +1,5 @@
 import { db } from "../services/db";
-import { Service, ServiceByUser } from "../models/service.model";
+import { Service, ServiceFull } from "../models/service.model";
 
 async function create({
   name,
@@ -11,7 +11,7 @@ async function create({
   description: string;
   price: number;
   userId: string;
-}): Promise<ServiceByUser | null> {
+}): Promise<ServiceFull | null> {
   try {
     const service = await db.service.create({
       data: {
@@ -42,7 +42,7 @@ async function create({
   return null;
 }
 
-async function find(id: string): Promise<ServiceByUser | null> {
+async function find(id: string): Promise<ServiceFull | null> {
   try {
     const service = await db.service.findFirst({
       where: {
@@ -73,7 +73,28 @@ async function find(id: string): Promise<ServiceByUser | null> {
   return null;
 }
 
-async function findAll(): Promise<ServiceByUser[] | null> {
+
+async function findWithUser(id: string) {
+  try {
+    const service = await db.service.findFirst({
+      where: {
+        id: id,
+      },
+      include:{
+        user:true
+      }
+    });
+ 
+ 
+    return service;
+    
+  } catch (error) {
+    console.log(error);
+  }
+  return null;
+}
+
+async function findAll(): Promise<ServiceFull[] | null> {
   try {
     const services = await db.service.findMany({
       include:{
@@ -114,7 +135,7 @@ async function update(
     description: string;
     price: number;
   }
-): Promise<ServiceByUser | null> {
+): Promise<ServiceFull | null> {
   try {
     const service = await db.service.update({
       where: {
@@ -164,6 +185,7 @@ async function destroy(id: string): Promise<boolean | null> {
 const serviceRepository = {
   create,
   find,
+  findWithUser,
   findAll,
   update,
   destroy,

@@ -18,6 +18,13 @@ enum TypeUser {
   service_provider 
 
 }
+
+
+enum StatusReservation {
+  active
+  canceled 
+}
+
 model User {
   id String @id @default(uuid())
   name String
@@ -47,6 +54,8 @@ model Reservation {
   userId String
   serviceId String
   quantity Int
+  status StatusReservation @default(active)
+  createdAt DateTime @default(now())
 
   service Service @relation(fields: [serviceId], references: [id])
   user User @relation(fields: [userId], references: [id])

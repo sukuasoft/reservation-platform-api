@@ -70,10 +70,30 @@ async function me (request:AuthRequest, response:Response){
 
 }
 
+
+async function deposit (request:AuthRequest, response:Response){
+  const user = request.user;
+
+  const {amount} = request.body;
+
+  if (user){
+    if( await userRepository.updateBalance(user.id, user.balance + amount)){
+      response.json({
+        message: 'Depósito realizado com sucesso!'
+      });
+      return;
+
+    }
+  }
+
+  responseError(response, ERRORS.INTERNAL_SERVER_ERROR);
+}
+
 const usersController = {
   register,
   login,
-  me
+  me, 
+  deposit
 };
 
 export default usersController;

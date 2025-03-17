@@ -2,7 +2,7 @@ import { Router } from "express";
 import servicesController from "../controllers/services.controller";
 import { authMiddleware } from "../middlewares/auth.middleware";
 
-// Rotas do Usuário
+// Rotas dos Serviços
 const servicesRoutes = Router();
 
 servicesRoutes.post('/services',authMiddleware,servicesController.create);

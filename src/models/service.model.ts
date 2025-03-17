@@ -6,7 +6,7 @@ export interface Service{
     userId:string
 }
 
-export interface ServiceByUser{
+export interface ServiceFull{
     id:string, 
     name:string
     description:string
