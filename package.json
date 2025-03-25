@@ -6,8 +6,7 @@
     "dev": "nodemon src/app.ts",
     "build": "tsc",
     "start": "node dist/app.js",
-    "prisma:migrate": "prisma migrate dev --name init",
-    "prisma:generate": "prisma generate"
+    "db:migrate": "prisma db push"
   },
   "repository": {
     "type": "git",
