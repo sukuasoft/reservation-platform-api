@@ -15,6 +15,8 @@ app.use(express.json())
 //habilitar cors
 app.use(cors());
 
+/*
+
 //limitar requisições de um usuário para evitar DDos
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutos
@@ -22,7 +24,7 @@ const limiter = rateLimit({
     message: "Muitas requisições. Tente novamente mais tarde."
 });
 
-app.use(limiter);
+app.use(limiter);*/
 
 //inicializar as rotas
 initRoutes(app);
